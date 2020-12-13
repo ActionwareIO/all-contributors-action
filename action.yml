@@ -1,0 +1,8 @@
+name: 'all-contributors-action'
+description: '@all-contributors action reacting on comments and pushing new contributors directly to repo'
+inputs:
+  GITHUB_TOKEN:
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
