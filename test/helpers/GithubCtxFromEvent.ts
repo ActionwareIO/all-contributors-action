@@ -42,11 +42,6 @@ export class Context {
   }
 
   get repo(): { owner: string; repo: string } {
-    if (process.env.GITHUB_REPOSITORY) {
-      const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/')
-      return { owner, repo }
-    }
-
     if (this.payload.repository) {
       return {
         owner: this.payload.repository.owner.login,
