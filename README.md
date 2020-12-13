@@ -57,6 +57,18 @@ Will trigger the action. We support few different forms of comments, check out o
 [test](https://github.com/ActionwareHQ/all-contributors-action/blob/master/test/all-contributors/parseComment.test.ts)
 for more.
 
+## ✨ Contributors
+
+We welcome all kinds of contributions!
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+<table><tr><td align="center"><a href="https://github.com/krzkaczor"><img src="https://avatars2.githubusercontent.com/u/1814312?v=4" width="100px;" alt="Kris Kaczor"/><br /><sub><b>Kris Kaczor</b></sub></a><br /><a href="https://github.com/all-contributors/all-contributors-bot/commits?author=krzkaczor" title="Code">💻</a></td></tr></table>
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
 ## License
 
 Kris Kaczor MIT
