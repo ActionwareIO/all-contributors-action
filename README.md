@@ -3,7 +3,7 @@
   <h3 align="center">All contributors action</h3>
   <p align="center">GitHub Action reacting on comments and pushing new <a href="https://allcontributors.org/">@all-contributors</a> contributors directly to the repo</p>
   <p align="center">
-    <img alt="Build status" src="https://github.com/ActionwareHQ/all-contributors-action/workflows/CI/badge.svg">
+    <img alt="Build status" src="https://github.com/actionwareio/all-contributors-action/workflows/CI/badge.svg">
     <a href="/package.json"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
     <img alt="All contributors" src="https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square">
   </p>
@@ -42,7 +42,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - uses: ActionwareHQ/all-contributors-action@action
+      - uses: actionwareio/all-contributors-action@action
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -54,7 +54,7 @@ Any issue comment like:
 ```
 
 Will trigger the action. We support few different forms of comments, check out our
-[test](https://github.com/ActionwareHQ/all-contributors-action/blob/master/test/all-contributors/parseComment.test.ts)
+[test](https://github.com/actionwareio/all-contributors-action/blob/master/test/all-contributors/parseComment.test.ts)
 for more.
 
 ## ✨ Contributors
@@ -65,7 +65,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-<table><tr><td align="center"><a href="https://github.com/krzkaczor"><img src="https://avatars2.githubusercontent.com/u/1814312?v=4" width="100px;" alt="Kris Kaczor"/><br /><sub><b>Kris Kaczor</b></sub></a><br /><a href="https://github.com/all-contributors/all-contributors-bot/commits?author=krzkaczor" title="Code">💻</a></td></tr></table>
+<table><tr><td align="center"><a href="https://github.com/krzkaczor"><img src="https://avatars2.githubusercontent.com/u/1814312?v=4" width="100px;" alt="Kris Kaczor"/><br /><sub><b>Kris Kaczor</b></sub></a><br /><a href="https://github.com/actionwareio/all-contributors-bot/commits?author=krzkaczor" title="Code">💻</a></td></tr></table>
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
