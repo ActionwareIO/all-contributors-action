@@ -1,4 +1,4 @@
-import { join } from 'path'
+import { dirname, join } from 'path'
 
 const {
   configFile: { readConfig },
@@ -7,12 +7,12 @@ const {
 
 const generate = require('all-contributors-cli/dist/generate')
 
-export function generateContributorsListIntoMarkdown({ configPath, cwd }: { configPath: string; cwd: string }) {
+export function generateContributorsListIntoMarkdown({ configPath }: { configPath: string }) {
   const config = readConfig(configPath)
 
   return Promise.all(
     config.files.map(async (file: string) => {
-      var filePath = join(cwd, file)
+      const filePath = join(dirname(configPath), file)
 
       const fileContent = await markdown.read(filePath)
       const newFileContent = generate(config, config.contributors, fileContent)

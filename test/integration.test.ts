@@ -27,7 +27,7 @@ describe('integration', () => {
       await action({ cwd: workdirPath, exec: execMock, octokit, ctx })
 
       // assert that a new contributor was added and readme regenerated
-      const allContributorsCfg = JSON.parse(readFileSync(join(workdirPath, '.all-contributorsrc'), 'utf-8'))
+      const allContributorsCfg = JSON.parse(readFileSync(join(workdirPath, '.github/.all-contributorsrc'), 'utf-8'))
       const exampleReadme = readFileSync(join(workdirPath, 'README.md'), 'utf8')
 
       expect(allContributorsCfg.contributors.length).toEqual(2)
@@ -52,7 +52,7 @@ describe('integration', () => {
       await action({ cwd: workdirPath, exec: execMock, octokit, ctx })
 
       // assert that a new contributor was added and readme regenerated
-      const allContributorsCfg = JSON.parse(readFileSync(join(workdirPath, '.all-contributorsrc'), 'utf-8'))
+      const allContributorsCfg = JSON.parse(readFileSync(join(workdirPath, '.github/.all-contributorsrc'), 'utf-8'))
 
       expect(allContributorsCfg.contributors[0]).toEqual(expect.objectWith({ contributions: ['code', 'doc', 'audio'] }))
     }),
@@ -75,7 +75,7 @@ describe('integration', () => {
       await action({ cwd: workdirPath, exec: execMock, octokit, ctx })
 
       // assert that a new contributor was added and readme regenerated
-      const allContributorsCfg = JSON.parse(readFileSync(join(workdirPath, '.all-contributorsrc'), 'utf-8'))
+      const allContributorsCfg = JSON.parse(readFileSync(join(workdirPath, '.github/.all-contributorsrc'), 'utf-8'))
 
       expect(allContributorsCfg.contributors[0]).toEqual(expect.objectWith({ contributions: ['code', 'doc'] }))
     }),
