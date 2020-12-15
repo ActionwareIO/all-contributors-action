@@ -57,4 +57,27 @@ describe('integration', () => {
       expect(allContributorsCfg.contributors[0]).toEqual(expect.objectWith({ contributions: ['code', 'doc', 'audio'] }))
     }),
   )
+
+  it(
+    'doesnt modify existing contributions if they repeat',
+    nockTest(async () => {
+      // prepare directory with dummy allcontributors setup
+      const workdirPath = tmp.tmpNameSync()
+      copySync(join(__dirname, './fixtures/example'), workdirPath)
+
+      const octokit = getOctokit('NOT_EXISTING_TOKEN')
+      const execMock = mockFn<Exec>().resolvesTo(0)
+      // event from an admin to add @octocat user as a contributor
+      const event = require('./fixtures/validEvent.json')
+      event.payload.comment.body = '@all-contributors please add @krzkaczor for doc'
+      const ctx = new Context(event)
+
+      await action({ cwd: workdirPath, exec: execMock, octokit, ctx })
+
+      // assert that a new contributor was added and readme regenerated
+      const allContributorsCfg = JSON.parse(readFileSync(join(workdirPath, '.all-contributorsrc'), 'utf-8'))
+
+      expect(allContributorsCfg.contributors[0]).toEqual(expect.objectWith({ contributions: ['code', 'doc'] }))
+    }),
+  )
 })
