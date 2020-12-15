@@ -1,0 +1,25 @@
+{
+  "projectName": "gha-playground",
+  "projectOwner": "krzkaczor",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "../README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "krzkaczor",
+      "name": "Kris Kaczor",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1814312?v=4",
+      "profile": "https://github.com/krzkaczor",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}

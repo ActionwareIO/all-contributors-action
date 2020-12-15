@@ -37,7 +37,7 @@ export async function action({ cwd, ctx, octokit, exec }: ActionCtx) {
   const contributions = parseComment(comment)
   console.log(`Adding ${contributions.length} new contributions`)
   await addContributions(configPath, contributions)
-  await generateContributorsListIntoMarkdown({ configPath, cwd })
+  await generateContributorsListIntoMarkdown({ configPath })
 
   await pushAllChangesToGit(exec)
 

@@ -11867,7 +11867,7 @@ function action({ cwd, ctx, octokit, exec }) {
         const contributions = parseComment_1.parseComment(comment);
         console.log(`Adding ${contributions.length} new contributions`);
         yield addContributors_1.addContributions(configPath, contributions);
-        yield generate_1.generateContributorsListIntoMarkdown({ configPath, cwd });
+        yield generate_1.generateContributorsListIntoMarkdown({ configPath });
         yield pushAllChangesToGit_1.pushAllChangesToGit(exec);
         const commentId = getters_1.getCommentId(ctx);
         ts_essentials_1.assert(commentId !== undefined, "Comment body couldn't be found. Did you setup action to run on `issue_comment` event?");
@@ -11960,10 +11960,10 @@ exports.generateContributorsListIntoMarkdown = void 0;
 const path_1 = __webpack_require__(5622);
 const { configFile: { readConfig }, markdown, } = __webpack_require__(175);
 const generate = __webpack_require__(9450);
-function generateContributorsListIntoMarkdown({ configPath, cwd }) {
+function generateContributorsListIntoMarkdown({ configPath }) {
     const config = readConfig(configPath);
     return Promise.all(config.files.map((file) => __awaiter(this, void 0, void 0, function* () {
-        var filePath = path_1.join(cwd, file);
+        const filePath = path_1.join(path_1.dirname(configPath), file);
         const fileContent = yield markdown.read(filePath);
         const newFileContent = generate(config, config.contributors, fileContent);
         return markdown.write(filePath, newFileContent);
