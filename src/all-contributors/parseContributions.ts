@@ -4,8 +4,10 @@ const getTypes = require('all-contributors-cli/dist/util/contribution-types.js')
 
 const allValidContributionTypes = Object.keys(getTypes({}))
 
+// synonym -> canonical
 const synonyms = {
   docs: 'doc',
+  idea: 'ideas',
 } as Record<string, string>
 
 export function parseContribution(contribution: string): string | undefined {

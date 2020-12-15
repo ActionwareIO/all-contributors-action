@@ -11903,7 +11903,12 @@ function addContributions(configFilePath, contributions) {
         const ctx = readConfig(configFilePath);
         // adds contributors to ctx
         for (const c of contributions) {
-            ctx.contributors = yield addUser(ctx, c.who, c.forWhat, getUserInfo);
+            // adding already existing contribution trigger some weird bug so we avoid doing so
+            const alreadyExistingUser = ctx.contributors.find((u) => u.login === c.who);
+            const allContributions = alreadyExistingUser
+                ? c.forWhat.filter((c) => !alreadyExistingUser.contributions.includes(c))
+                : c.forWhat;
+            ctx.contributors = yield addUser(ctx, c.who, allContributions, getUserInfo);
         }
         yield writeContributors(configFilePath, ctx.contributors);
     });
@@ -12034,8 +12039,10 @@ exports.parseContribution = void 0;
 const ts_essentials_1 = __webpack_require__(4253);
 const getTypes = __webpack_require__(5758);
 const allValidContributionTypes = Object.keys(getTypes({}));
+// synonym -> canonical
 const synonyms = {
     docs: 'doc',
+    idea: 'ideas',
 };
 function parseContribution(contribution) {
     if (allValidContributionTypes.includes(contribution)) {
@@ -12104,6 +12111,7 @@ function entrypoint() {
 exports.entrypoint = entrypoint;
 entrypoint().catch((e) => {
     console.log('Error happened:', e);
+    console.error(e);
     // in case of error mark action as failed
     core.setFailed(e.message);
 });

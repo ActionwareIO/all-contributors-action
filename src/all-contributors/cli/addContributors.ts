@@ -11,7 +11,13 @@ export async function addContributions(configFilePath: string, contributions: Pa
 
   // adds contributors to ctx
   for (const c of contributions) {
-    ctx.contributors = await addUser(ctx, c.who, c.forWhat, getUserInfo)
+    // adding already existing contribution trigger some weird bug so we avoid doing so
+    const alreadyExistingUser = ctx.contributors.find((u: any) => u.login === c.who)
+    const allContributions = alreadyExistingUser
+      ? c.forWhat.filter((c) => !alreadyExistingUser.contributions.includes(c))
+      : c.forWhat
+
+    ctx.contributors = await addUser(ctx, c.who, allContributions, getUserInfo)
   }
   await writeContributors(configFilePath, ctx.contributors)
 }

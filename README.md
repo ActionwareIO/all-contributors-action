@@ -42,7 +42,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - uses: actionwareio/all-contributors-action@action
+      - uses: ActionwareIO/all-contributors-action@action
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
