@@ -9,6 +9,8 @@ describe('parseContribution', () => {
 
   it('fixes synonymous contributions', () => {
     expect(parseContribution('docs')).toEqual('doc')
+    expect(parseContribution('ideas')).toEqual('ideas')
+    expect(parseContribution('idea')).toEqual('ideas')
   })
 
   it('returns undefined for unrecognized contributions', () => {

@@ -15,6 +15,7 @@ export async function entrypoint() {
 
 entrypoint().catch((e) => {
   console.log('Error happened:', e)
+  console.error(e)
   // in case of error mark action as failed
   core.setFailed(e.message)
 })
