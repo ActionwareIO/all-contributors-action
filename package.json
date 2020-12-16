@@ -10,6 +10,7 @@
     "lint:fix": "yarn lint --fix",
     "typecheck": "tsc --noEmit",
     "test": "mocha --config .mocharc.js",
+    "test:watch": "mocha --config .mocharc.js --watch",
     "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck",
     "build": "yarn clean && ncc build ./src/entrypoint.ts -o dist",
     "clean": "rm -rf dist"
@@ -24,12 +25,12 @@
     "ts-essentials": "^7.0.1"
   },
   "devDependencies": {
-    "@types/tmp": "^0.2.0",
     "@types/fs-extra": "^9.0.5",
     "@types/mocha": "^8.0.4",
+    "@types/tmp": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
-    "earljs": "^0.1.5",
+    "earljs": "^0.1.9",
     "eslint": "^7.15.0",
     "eslint-config-typestrict": "^1.0.1",
     "eslint-plugin-no-only-tests": "^2.4.0",
