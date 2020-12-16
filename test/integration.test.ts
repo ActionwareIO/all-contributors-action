@@ -31,6 +31,7 @@ describe('integration', () => {
       const exampleReadme = readFileSync(join(workdirPath, 'README.md'), 'utf8')
 
       expect(allContributorsCfg.contributors.length).toEqual(2)
+      expect(exampleReadme).toMatchSnapshot()
       expect(exampleReadme).toEqual(expect.stringMatching('monalisa octocat'))
       expect(exampleReadme).toEqual(
         expect.stringMatching(
