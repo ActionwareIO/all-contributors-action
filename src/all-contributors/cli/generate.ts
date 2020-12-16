@@ -1,4 +1,7 @@
+import { readFileSync, writeFileSync } from 'fs-extra'
 import { dirname, join } from 'path'
+
+import { fixHtmlBadges } from '../fixHtmlBadges'
 
 const {
   configFile: { readConfig },
@@ -16,7 +19,12 @@ export function generateContributorsListIntoMarkdown({ configPath }: { configPat
 
       const fileContent = await markdown.read(filePath)
       const newFileContent = generate(config, config.contributors, fileContent)
-      return markdown.write(filePath, newFileContent)
+      await markdown.write(filePath, newFileContent)
+
+      // re-read whole file contents I am worried that markdown does something funny with the input and it's simply easier this way
+      const fileContents = readFileSync(filePath, 'utf-8')
+      const finalFileContents = fixHtmlBadges(config.contributors.length, fileContents)
+      writeFileSync(filePath, finalFileContents)
     }),
   )
 }

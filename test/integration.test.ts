@@ -31,7 +31,13 @@ describe('integration', () => {
       const exampleReadme = readFileSync(join(workdirPath, 'README.md'), 'utf8')
 
       expect(allContributorsCfg.contributors.length).toEqual(2)
+      expect(exampleReadme).toMatchSnapshot()
       expect(exampleReadme).toEqual(expect.stringMatching('monalisa octocat'))
+      expect(exampleReadme).toEqual(
+        expect.stringMatching(
+          '<img alt="All contributors" src="https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square">',
+        ),
+      )
     }),
   )
 
