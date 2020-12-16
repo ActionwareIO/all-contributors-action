@@ -2,6 +2,8 @@
 
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
+<img alt="All contributors" src="https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square">
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):

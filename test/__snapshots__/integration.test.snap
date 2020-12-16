@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`integration adds a new contributor 1`] = `
+"# Boilerplate
+
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
+
+<img alt=\\"All contributors\\" src=\\"https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square\\">
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align=\\"center\\"><a href=\\"https://github.com/krzkaczor\\"><img src=\\"https://avatars2.githubusercontent.com/u/1814312?v=4?s=100\\" width=\\"100px;\\" alt=\\"\\"/><br /><sub><b>Kris Kaczor</b></sub></a><br /><a href=\\"https://github.com/krzkaczor/gha-playground/commits?author=krzkaczor\\" title=\\"Code\\">💻</a> <a href=\\"https://github.com/krzkaczor/gha-playground/commits?author=krzkaczor\\" title=\\"Documentation\\">📖</a></td>
+    <td align=\\"center\\"><a href=\\"https://github.com/blog\\"><img src=\\"https://github.com/images/error/octocat_happy.gif?s=100\\" width=\\"100px;\\" alt=\\"\\"/><br /><sub><b>monalisa octocat</b></sub></a><br /><a href=\\"https://github.com/krzkaczor/gha-playground/commits?author=octocat\\" title=\\"Documentation\\">📖</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+"
+`;

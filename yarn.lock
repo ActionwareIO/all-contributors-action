@@ -920,10 +920,10 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
-earljs@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/earljs/-/earljs-0.1.5.tgz#029bb42a7604989ae60247c86a04434a889fa0b6"
-  integrity sha512-9VNVc5kZpTmBPmEQXSwGZdNmwwpfquPt61+GS0MJu51Ej7KKhRxoI4qYQhvlQ2JAOzzMNjPGn6eOPUxBNrIySw==
+earljs@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/earljs/-/earljs-0.1.9.tgz#30606508c8b94e9a9fdf3c4368aaff583b8da701"
+  integrity sha512-vTKDN7BwkE3t/Dng3f5/hCBESDO9P/vnmYSNtmiWnITa6qZq2hX8Jss51MgRxVGmHY4dKHt7lXHbuD4E1HpTGQ==
   dependencies:
     debug "^4.1.1"
     jest-snapshot "^26.6.2"
