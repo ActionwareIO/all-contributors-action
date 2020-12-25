@@ -1,61 +1,41 @@
-name: release
+name: Release
 
 on:
-  push:
+  workflow_run:
+    workflows:
+      - CI
     branches:
       - master
-    paths:
-      - './src/**/*'
-      - 'package.json'
-      - 'action.yml'
+    types:
+      - completed
+
 jobs:
   release:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v1
-        with:
-          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
-          fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
       - uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
-
+          node-version: 12.x
       - name: Cache YARN dependencies
         uses: actions/cache@v2
         with:
           path: |
             node_modules
             */*/node_modules
-          key: ${{ runner.OS }}-12.x-yarn-cache-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.OS }}-${{ matrix.node }}-yarn-cache-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.OS }}-${{ matrix.node }}-yarn-cache-
 
       - run: yarn --no-progress --non-interactive --frozen-lockfile
-      # note this is exactly the same as on CI workflow
-      - run: yarn lint
-      - run: yarn format
-      - run: yarn build
-      - run: yarn test
-      - run: yarn typecheck
 
       - run: yarn build
 
-      - name: Commit files
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-
-          git add --force dist/index.js
-          git add action.yml README.md
-          git stash
-          git fetch --all
-          git checkout action
-          git checkout stash -- .
-
-          git commit -m "Automated release" -a
-
-      - name: Push changes
-        uses: ad-m/github-push-action@master
+      - uses: ActionwareIO/branch-push-action@action
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: action
+          files: |
+            README.md
+            action.yml
+            ./dist/index.js
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
