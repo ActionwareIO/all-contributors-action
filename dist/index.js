@@ -14926,19 +14926,10 @@ function wrappy (fn, cb) {
 /***/ }),
 
 /***/ 7672:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.action = void 0;
 const ts_essentials_1 = __webpack_require__(4253);
@@ -14950,29 +14941,27 @@ const pushAllChangesToGit_1 = __webpack_require__(2212);
 const addOkayReaction_1 = __webpack_require__(3984);
 const checkPermissions_1 = __webpack_require__(2784);
 const getters_1 = __webpack_require__(3137);
-function action({ cwd, ctx, octokit, exec }) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const comment = getters_1.getCommentBody(ctx);
-        if (!comment) {
-            throw new Error("Comment body couldn't be found. Did you setup action to run on `issue_comment` event?");
-        }
-        const actorPermissions = yield checkPermissions_1.checkPermissions(octokit, ctx, ctx.actor);
-        if (actorPermissions !== 'write' && actorPermissions !== 'admin') {
-            throw new Error(`${ctx.actor} doesn't have access to run this action`);
-        }
-        const configPath = findConfig_1.findConfig(cwd);
-        if (!configPath) {
-            throw new Error("Can't find all contributors config file!");
-        }
-        const contributions = parseComment_1.parseComment(comment);
-        console.log(`Adding ${contributions.length} new contributions`);
-        yield addContributors_1.addContributions(configPath, contributions);
-        yield generate_1.generateContributorsListIntoMarkdown({ configPath });
-        yield pushAllChangesToGit_1.pushAllChangesToGit(exec);
-        const commentId = getters_1.getCommentId(ctx);
-        ts_essentials_1.assert(commentId !== undefined, "Comment body couldn't be found. Did you setup action to run on `issue_comment` event?");
-        yield addOkayReaction_1.addOkayReaction(octokit, ctx, commentId);
-    });
+async function action({ cwd, ctx, octokit, exec }) {
+    const comment = getters_1.getCommentBody(ctx);
+    if (!comment) {
+        throw new Error("Comment body couldn't be found. Did you setup action to run on `issue_comment` event?");
+    }
+    const actorPermissions = await checkPermissions_1.checkPermissions(octokit, ctx, ctx.actor);
+    if (actorPermissions !== 'write' && actorPermissions !== 'admin') {
+        throw new Error(`${ctx.actor} doesn't have access to run this action`);
+    }
+    const configPath = findConfig_1.findConfig(cwd);
+    if (!configPath) {
+        throw new Error("Can't find all contributors config file!");
+    }
+    const contributions = parseComment_1.parseComment(comment);
+    console.log(`Adding ${contributions.length} new contributions`);
+    await addContributors_1.addContributions(configPath, contributions);
+    await generate_1.generateContributorsListIntoMarkdown({ configPath });
+    await pushAllChangesToGit_1.pushAllChangesToGit(exec);
+    const commentId = getters_1.getCommentId(ctx);
+    ts_essentials_1.assert(commentId !== undefined, "Comment body couldn't be found. Did you setup action to run on `issue_comment` event?");
+    await addOkayReaction_1.addOkayReaction(octokit, ctx, commentId);
 }
 exports.action = action;
 
@@ -14980,38 +14969,27 @@ exports.action = action;
 /***/ }),
 
 /***/ 4184:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.addContributions = void 0;
 const addUser = __webpack_require__(6693);
 const { getUserInfo } = __webpack_require__(2236);
 const { configFile: { writeContributors, readConfig }, } = __webpack_require__(175);
-function addContributions(configFilePath, contributions) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const ctx = readConfig(configFilePath);
-        // adds contributors to ctx
-        for (const c of contributions) {
-            // adding already existing contribution trigger some weird bug so we avoid doing so
-            const alreadyExistingUser = ctx.contributors.find((u) => u.login === c.who);
-            const allContributions = alreadyExistingUser
-                ? c.forWhat.filter((c) => !alreadyExistingUser.contributions.includes(c))
-                : c.forWhat;
-            ctx.contributors = yield addUser(ctx, c.who, allContributions, getUserInfo);
-        }
-        yield writeContributors(configFilePath, ctx.contributors);
-    });
+async function addContributions(configFilePath, contributions) {
+    const ctx = readConfig(configFilePath);
+    // adds contributors to ctx
+    for (const c of contributions) {
+        // adding already existing contribution trigger some weird bug so we avoid doing so
+        const alreadyExistingUser = ctx.contributors.find((u) => u.login === c.who);
+        const allContributions = alreadyExistingUser
+            ? c.forWhat.filter((c) => !alreadyExistingUser.contributions.includes(c))
+            : c.forWhat;
+        ctx.contributors = await addUser(ctx, c.who, allContributions, getUserInfo);
+    }
+    await writeContributors(configFilePath, ctx.contributors);
 }
 exports.addContributions = addContributions;
 
@@ -15042,19 +15020,10 @@ exports.findConfig = findConfig;
 /***/ }),
 
 /***/ 8424:
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.generateContributorsListIntoMarkdown = void 0;
 const fs_extra_1 = __webpack_require__(5630);
@@ -15064,16 +15033,16 @@ const { configFile: { readConfig }, markdown, } = __webpack_require__(175);
 const generate = __webpack_require__(9450);
 function generateContributorsListIntoMarkdown({ configPath }) {
     const config = readConfig(configPath);
-    return Promise.all(config.files.map((file) => __awaiter(this, void 0, void 0, function* () {
+    return Promise.all(config.files.map(async (file) => {
         const filePath = path_1.join(path_1.dirname(configPath), file);
-        const fileContent = yield markdown.read(filePath);
+        const fileContent = await markdown.read(filePath);
         const newFileContent = generate(config, config.contributors, fileContent);
-        yield markdown.write(filePath, newFileContent);
+        await markdown.write(filePath, newFileContent);
         // re-read whole file contents I am worried that markdown does something funny with the input and it's simply easier this way
         const fileContents = fs_extra_1.readFileSync(filePath, 'utf-8');
         const finalFileContents = fixHtmlBadges_1.fixHtmlBadges(config.contributors.length, fileContents);
         fs_extra_1.writeFileSync(filePath, finalFileContents);
-    })));
+    }));
 }
 exports.generateContributorsListIntoMarkdown = generateContributorsListIntoMarkdown;
 
@@ -15211,15 +15180,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.entrypoint = void 0;
 const core = __importStar(__webpack_require__(2186));
@@ -15227,13 +15187,11 @@ const exec_1 = __webpack_require__(1514);
 const github = __importStar(__webpack_require__(5438));
 const action_1 = __webpack_require__(7672);
 const octokit_1 = __webpack_require__(7891);
-function entrypoint() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const ctx = github.context;
-        const octokit = octokit_1.getOctokit();
-        const cwd = process.cwd();
-        yield action_1.action({ cwd, ctx, octokit, exec: exec_1.exec });
-    });
+async function entrypoint() {
+    const ctx = github.context;
+    const octokit = octokit_1.getOctokit();
+    const cwd = process.cwd();
+    await action_1.action({ cwd, ctx, octokit, exec: exec_1.exec });
 }
 exports.entrypoint = entrypoint;
 entrypoint().catch((e) => {
@@ -15247,31 +15205,20 @@ entrypoint().catch((e) => {
 /***/ }),
 
 /***/ 2212:
-/***/ (function(__unused_webpack_module, exports) {
+/***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.pushAllChangesToGit = void 0;
-function pushAllChangesToGit(exec) {
-    return __awaiter(this, void 0, void 0, function* () {
-        yield exec('git config --global user.email github-actions[bot]@users.noreply.github.com');
-        yield exec('git config --global user.name github-actions[bot]');
-        yield exec('git checkout master');
-        yield exec('git add -A');
-        yield exec('git commit -m "Add @all-contributors contribution"');
-        yield exec(`git remote add origin-authed https://${process.env.GITHUB_ACTOR}:${process.env.INPUT_GITHUB_TOKEN}@github.com/${process.env.GITHUB_REPOSITORY}.git`);
-        yield exec('git push origin-authed');
-    });
+async function pushAllChangesToGit(exec) {
+    await exec('git config --global user.email github-actions[bot]@users.noreply.github.com');
+    await exec('git config --global user.name github-actions[bot]');
+    await exec('git checkout master');
+    await exec('git add -A');
+    await exec('git commit -m "Add @all-contributors contribution"');
+    await exec(`git remote add origin-authed https://${process.env.GITHUB_ACTOR}:${process.env.INPUT_GITHUB_TOKEN}@github.com/${process.env.GITHUB_REPOSITORY}.git`);
+    await exec('git push origin-authed');
 }
 exports.pushAllChangesToGit = pushAllChangesToGit;
 
@@ -15279,24 +15226,17 @@ exports.pushAllChangesToGit = pushAllChangesToGit;
 /***/ }),
 
 /***/ 3984:
-/***/ (function(__unused_webpack_module, exports) {
+/***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.addOkayReaction = void 0;
-function addOkayReaction(octokit, ctx, commentId) {
-    return __awaiter(this, void 0, void 0, function* () {
-        yield octokit.reactions.createForIssueComment(Object.assign(Object.assign({}, ctx.repo), { comment_id: commentId, content: '+1' }));
+async function addOkayReaction(octokit, ctx, commentId) {
+    await octokit.reactions.createForIssueComment({
+        ...ctx.repo,
+        comment_id: commentId,
+        content: '+1',
     });
 }
 exports.addOkayReaction = addOkayReaction;
@@ -15305,27 +15245,19 @@ exports.addOkayReaction = addOkayReaction;
 /***/ }),
 
 /***/ 2784:
-/***/ (function(__unused_webpack_module, exports) {
+/***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.checkPermissions = void 0;
 const ALL_POSSIBLE_PERMISSIONS = (/* unused pure expression or super */ null && (['none', 'read', 'write', 'admin']));
-function checkPermissions(octokit, ctx, username) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const response = yield octokit.repos.getCollaboratorPermissionLevel(Object.assign(Object.assign({}, ctx.repo), { username }));
-        return response.data.permission; // @todo replace with explicit validation like with zod
+async function checkPermissions(octokit, ctx, username) {
+    const response = await octokit.repos.getCollaboratorPermissionLevel({
+        ...ctx.repo,
+        username,
     });
+    return response.data.permission; // @todo replace with explicit validation like with zod
 }
 exports.checkPermissions = checkPermissions;
 
