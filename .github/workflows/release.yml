@@ -14,12 +14,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4.0.0
+      - uses: actions/setup-node@v3.8.1
         with:
           node-version: 12.x
       - name: Cache YARN dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3.3.2
         with:
           path: |
             node_modules
