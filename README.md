@@ -1,3 +1,13 @@
+<div>
+  <h2 align="center">⚠️ ⚠️ ⚠️ No Longer Maintained ⚠️ ⚠️ ⚠️</h3>
+  <p align="center"><b>Please note:</b> This repository is currently unmaintained. The repository is here and you can use it as an example, or in Actions. However please be aware that 
+we are not going to be updating issues or pull requests on this repository. Please feel free to fork this repository and maintain it yourself.</p>
+
+  <p align="center">To reflect this state we’ve marked this repository as Archived.</p>
+  </p>
+</div>
+<hr/>
+
 <p align="center">
   <img src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/busts-in-silhouette_1f465.png" width="120" alt="@all-contributors action">
   <h3 align="center">All contributors action</h3>
